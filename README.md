@@ -1,261 +1,152 @@
-# Solana Wallet Cross-Platform App with Expo, Web3 & React Native
+# Expo Solana Wallet
 
-This is a simple Solana Wallet Cross-Platform App built with Expo, Web3 & React Native to learn about web3.
+A mobile cryptocurrency wallet application built with Expo for interacting with the Solana blockchain. This wallet allows users to create accounts, send and receive SOL and SPL tokens, view transaction history, and manage their digital assets securely.
 
-## Screens and Features
+## Features
 
-### Welcome
+- **Secure Wallet Creation**: Generate and manage Solana wallet accounts with mnemonic seed phrases
+- **Balance Management**: View SOL and SPL token balances in real-time
+- **Token Transfers**: Send and receive SOL and SPL tokens
+- **Transaction History**: View detailed transaction history for your accounts
+- **QR Code Integration**: Scan QR codes for easy address input
+- **PIN Protection**: Secure your wallet with a PIN code
+- **Backup & Recovery**: Securely backup and restore your wallet using seed phrases
+- **Multi-Account Support**: Manage multiple accounts within a single wallet
+- **Real-time Price Tracking**: View current SOL to USD conversion rates
 
-This screen only shows a button to start!
+## Technologies Used
 
-![Welcome](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/welcome-1e53e78c.png)
+- [Expo](https://expo.dev/) - Universal React Native development platform
+- [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/) - JavaScript API for Solana blockchain
+- [React Native Paper](https://callstack.github.io/react-native-paper/) - Material Design components
+- [Easy Peasy](https://easy-peasy.dev/) - State management solution
+- [React Navigation](https://reactnavigation.org/) - Routing and navigation
 
+## Prerequisites
 
-### Create your passcode
+Before you begin, ensure you have the following installed:
 
-This screen let you create a passcode that for now is only requested when you want to see your recovery phrase.
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/)
+- [Git](https://git-scm.com/)
 
-Later, it can be used to encrypt the seed, before doing a transfer or even to access to the full app.
+## Installation
 
+1. Clone the repository:
 
-![Passcode](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/passcode-085e77c7.png)
+   ```bash
+   git clone https://github.com/kingrichardx/expo-solana-wallet.git
+   ```
 
+2. Navigate to the project directory:
 
-### Dashboard
+   ```bash
+   cd expo-solana-wallet
+   ```
 
-This screen shows the account balance and soon it will show the Activity of the account.
+3. Install dependencies:
 
-Also, it is where I placed the Navigation using a floating action button (component provided by [React Native Paper](https://callstack.github.io/react-native-paper/fab-group.html))
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
+4. Start the development server:
+   ```bash
+   expo start
+   ```
 
-![Dashboard](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/dashboard-3355a428.png)
+## Usage
 
+After starting the development server, you can:
 
-Get account balance with web3:
+- Press `a` to run on Android emulator/device
+- Press `i` to run on iOS simulator
+- Press `w` to run on web browser
 
-~~~javascript
-const getBalance = async (publicKey) => {
-  const connection = createConnection();
-  const _publicKey = publicKeyFromString(publicKey);
+### Creating a Wallet
 
-  const lamports = await connection.getBalance(_publicKey).catch((err) => {
-    console.error(`Error: ${err}`);
-  });
+1. Launch the application
+2. Follow the onboarding process
+3. Set a secure PIN code
+4. Generate a new wallet or restore from existing seed phrase
 
-  const sol = lamports / LAMPORTS_PER_SOL;
-  return sol;
-};
-~~~
+### Sending Tokens
 
-### Receive
+1. Navigate to the Dashboard
+2. Tap the "Send" button
+3. Enter the recipient's address or scan their QR code
+4. Specify the amount of SOL or tokens to send
+5. Confirm the transaction with your PIN
 
-This screen shows the address and a qr to make easier receive tokens.
+### Receiving Tokens
 
+1. Navigate to the Dashboard
+2. Tap the "Receive" button
+3. Share your QR code or wallet address with the sender
 
-![Receive](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/receive-f0315e76.png)
+## Project Structure
 
+```
+expo-solana-wallet/
+├── api/                 # Solana blockchain integration
+├── components/          # Reusable UI components
+├── constants/           # Application constants
+├── core/                # Core theme and configuration
+├── hooks/               # Custom React hooks
+├── navigation/          # App navigation setup
+├── onboarding/          # Onboarding screens
+├── screens/             # Application screens
+├── store/               # State management (Easy Peasy)
+├── utils/               # Utility functions
+├── App.tsx             # Main application component
+├── app.json            # Expo configuration
+└── package.json        # Project dependencies
+```
 
-### Send
+## Available Scripts
 
-This screen allows you to send tokens to other accounts typing the address or scanning a qr code.
+- `npm start` - Start the Expo development server
+- `npm run android` - Run on Android
+- `npm run ios` - Run on iOS
+- `npm run web` - Run on Web
+- `npm test` - Run tests
 
-Also, this screen shows the current price of SOL, SOL available in the account and convert the introduced amount to USD.
+## Environment Variables
 
-Validations are pending!
+This project uses the Solana devnet by default. For production use, you may need to configure:
 
-![Send](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/send-43b69182.png)
+- `SOLANA_CLUSTER` - Solana cluster endpoint (devnet, testnet, mainnet-beta)
 
-Create transaction with web3:
+## Contributing
 
-~~~javascript
-const transaction = async (from, to, amount) => {
-  const account = accountFromSeed(from.seed);
+Contributions are welcome! Please follow these steps:
 
-  console.log("Executing transaction...");
-  console.log(amount);
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-  const transaction = new solanaWeb3.Transaction().add(
-    solanaWeb3.SystemProgram.transfer({
-      fromPubkey: publicKeyFromString(from.account),
-      toPubkey: publicKeyFromString(to),
-      lamports: amount * LAMPORTS_PER_SOL,
-    })
-  );
+## License
 
-  // Sign transaction, broadcast, and confirm
-  const connection = createConnection();
-  const signature = await solanaWeb3.sendAndConfirmTransaction(
-    connection,
-    transaction,
-    [account]
-  );
-  console.log("SIGNATURE", signature);
-};
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-~~~
+## Author
 
-Get Solana price using [Coingecko](https://www.coingecko.com) API:
+**Richard Ellis**
 
-~~~javascript
-const getSolanaPrice = async () => {
-  const response = await fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd`,
-    {
-      method: "GET",
-    }
-  );
+- GitHub: [@kingrichardx](https://github.com/kingrichardx)
+- Email: richardellis0012@gmail.com
 
-  const data = await response.json();
-  return data.solana.usd;
-};
+## Acknowledgments
 
-~~~
+- Thanks to the Solana community for their excellent documentation and tools
+- Inspired by various open-source wallet implementations
+- Built with ❤️ using Expo and React Native
 
-### Settings
+## Disclaimer
 
-This screen shows two options:
-
-![Settings](https://moviendo.me/building-a-solana-wallet-cross-platform-app-with-expo-web3-and-react-native/settings-c2f36be5.png)
-
-#### Backup
-
-To access to recovery phrase. Before ask for passcode.
-
-#### Request Airdrop
-
-This app is configured to connect to dev network so the tokens showed are not real.
-
-Good thing is that every time you press here you get 1 SOL in your account that can be used to test the app, make transfers...
-
-Request an Airdrop in dev mode with web3:
-
-~~~javascript
-const requestAirDrop = async (publicKeyString: string) => {
-  const connection = createConnection();
-
-  const airdropSignature = await connection.requestAirdrop(
-    publicKeyFromString(publicKeyString),
-    LAMPORTS_PER_SOL
-  );
-
-  const signature = await connection.confirmTransaction(airdropSignature);
-  return signature;
-};
-~~~
-
-## What I used to build this Solana Wallet
-
-### Expo
-Expo is an open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.
- - [Expo](https://expo.io/)
-
-
-### Solana/web3.js
-This is the Solana Javascript API built on the Solana JSON RPC API.
- - [Solana/web3.js](https://solana-labs.github.io/solana-web3.js/)
-
-### Easy Peasy
-Vegetarian friendly state for React.
- - [Easy Peasy](https://easy-peasy.vercel.app/)
-
-### React Native Paper
-Paper is a collection of customizable and production-ready components for React Native, following Google’s Material Design guidelines.
- - [React Native Paper](https://callstack.github.io/react-native-paper/)
-
-### React Navigation
-Routing and navigation for Expo and React Native apps.
- - [React Navigation](https://reactnavigation.org/)
-
-### More
-
-Moreover I used other libraries for crypto, qr generate and scan...
-
-You can check them in [package.json](https://github.com/jferrer/expo-solana-wallet/blob/main/package.json)
-
-## Problems that I found and workarounds to solve them
-
-### Crypto dependency
-
-`solana/web3.js` needs `Crypto` that it seems that now it's included in NodeJS but no in React Native and although I found some ways to have it working in React Native I didn't find a w
-ay to do it without ejecting the app from Expo.
-
-Finally I found a workaround that basically uses `ethers.js` and `expo-random` to be able to generate mnemonic and seed. Later, I was able to use `solana/web3.js` without issues to conn
-ect to the network, get balance, transfer...
-
-~~~javascript
-const generateMnemonic = async () => {
-  const randomBytes = await Random.getRandomBytesAsync(32);
-  const mnemonic = ethers.utils.entropyToMnemonic(randomBytes);
-  return mnemonic;
-};
-
-const mnemonicToSeed = (mnemonic: string) => {
-  const seed = ethers.utils.mnemonicToSeed(mnemonic);
-  return seed;
-};
-
-const accountFromSeed = (seed: string) => {
-  const hex = Uint8Array.from(Buffer.from(seed));
-  const keyPair = nacl.sign.keyPair.fromSeed(hex.slice(0, 32));
-  const account = new solanaWeb3.Account(keyPair.secretKey);
-  return account;
-};
-~~~
-
-### Metro has encountered an error trying to resolve module 'superstruct'
-
-Here the problem seems to be that the package entrypoint is a CommmonJS file. To solve it I added `.cjs` files to `metro.config.js`
-
-~~~javascript
-module.exports = {
-  resolver: {
-    sourceExts: ["jsx", "js", "ts", "tsx", "cjs"],
-  },
-};
-~~~
-
-### Some RN URL methods have no implementation
-
-React Native `react-native/Libraries/Blob/URL.js` has no implementation for some methods.
-
-Before, I was changing the 2 methods (`protocol` and `port`) manually but every time that I run `yarn` back to normal.
-
-After a bit of research it seems that RN doesn't include this because the full implementation will increase a lot the size of the bundle but can be solved adding `react-native-url-polyf
-ill` package.
-
-~~~bash
-$ yarn add react-native-url-polyfill
-~~~
-
-~~~javascript
-# App.tsx
-...
-import "react-native-url-polyfill/auto";
-...
-~~~
-
-
-## What's next
-
-- Continue cleaning the code and remove packages that I'm not using anymore.
-- Design doesn't adjust well. I used a [Background](https://www.freepik.com/free-vector/retro-futuristic-landscape-background-with-sun_5072269.htm#page=1&query=sun%20future&position=12)
- only to see it nice when I was building.
-- Give option to connect to Mainnet.
-- Let the option to generate derived accounts, encrypt seed phrase...
-- Integration with [Serum](https://projectserum.com/#/) for Swaps.
-- Run as Browser Extension.
-
-## Final
-My goal with this was to learn the Web3 basics building something simple and sharing 100% of the code between Web and Native.
-
-I think it has been a good introduction to see how Web3 works.
-
-
-## Run it:
-
-~~~bash
-$ git clone https://github.com/jferrer/expo-solana-wallet.git
-$ cd expo-solana-wallet
-$ yarn install
-$ expo web or expo start
-~~~
+This wallet is provided as-is for educational and demonstration purposes. Use at your own risk. Always test thoroughly before using with real funds. The developers are not responsible for any loss of funds or other damages that may occur from using this software.
